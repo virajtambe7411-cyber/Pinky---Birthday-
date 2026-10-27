@@ -1,0 +1,512 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pinky's Birthday Wonderland 🎀</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Trebuchet MS", sans-serif;
+  color: #682b60;
+  text-align: center;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, #ffe0f0, #eee1ff, #ffd9e8);
+  background-size: 300% 300%;
+  animation: bg 12s ease infinite;
+  min-height: 100vh;
+}
+
+@keyframes bg {
+  0%,100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+section {
+  padding: 65px 18px;
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+h1 {
+  font-size: clamp(2.2rem, 9vw, 4rem);
+  color: #d63384;
+  text-shadow: 2px 3px 0 #fff;
+}
+
+h2 {
+  font-size: clamp(1.6rem, 6vw, 2.5rem);
+  color: #bd438c;
+}
+
+p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  max-width: 650px;
+}
+
+button {
+  background: linear-gradient(135deg, #ff69b4, #c77dff);
+  color: white;
+  border: 2px solid white;
+  padding: 14px 23px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 18px #d65ca555;
+  transition: transform .25s;
+}
+
+button:active {
+  transform: scale(.94);
+}
+
+button:hover {
+  transform: translateY(-3px);
+}
+
+.card {
+  width: min(100%, 620px);
+  padding: 28px 22px;
+  border-radius: 28px;
+  background: #ffffffb9;
+  border: 2px solid #ffffff;
+  box-shadow: 0 12px 35px #c46ca52b;
+  backdrop-filter: blur(8px);
+}
+
+.emoji {
+  font-size: clamp(3.5rem, 14vw, 6rem);
+  animation: bob 2s ease-in-out infinite;
+}
+
+@keyframes bob {
+  0%,100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-13px) rotate(3deg); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.small {
+  font-size: .88rem;
+  opacity: .8;
+}
+
+.floating {
+  position: fixed;
+  bottom: -40px;
+  pointer-events: none;
+  z-index: 0;
+  animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-115vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+section, footer {
+  position: relative;
+  z-index: 1;
+}
+
+#confetti {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.cake {
+  font-size: 6rem;
+  cursor: pointer;
+  transition: transform .2s;
+}
+
+.cake:active {
+  transform: scale(1.15);
+}
+
+.gift {
+  font-size: 6rem;
+  cursor: pointer;
+  animation: bob 1.8s infinite;
+}
+
+.letter {
+  text-align: left;
+  padding: 25px 22px;
+  border-radius: 22px;
+  background: #fffafd;
+  border: 2px dashed #e89bc7;
+  width: min(100%, 620px);
+  line-height: 1.9;
+  white-space: pre-line;
+  box-shadow: 0 10px 35px #9f518322;
+}
+
+footer {
+  padding: 25px;
+  font-size: .9rem;
+}
+
+#apology {
+  scroll-margin-top: 15px;
+}
+
+.glow {
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px #ff8ac7; }
+  to { text-shadow: 0 0 22px #ff69b4; }
+}
+
+button:focus-visible,
+.cake:focus-visible,
+.gift:focus-visible {
+  outline: 3px solid #8a3fba;
+  outline-offset: 4px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<section id="welcome">
+  <div class="emoji">🎀</div>
+  <p>✨ A tiny magical world has been made just for someone special ✨</p>
+  <h1>Pinky's Birthday Wonderland!</h1>
+  <p>Ready for some birthday chaos, Pinky? 👀💗</p>
+  <button onclick="startParty()">OPEN YOUR SURPRISE 🎉</button>
+  <p class="small">Warning: excessive cuteness ahead! 🧸</p>
+</section>
+
+<section id="party" class="hidden">
+  <h1 class="glow">HAPPY BIRTHDAY, PINKY! 💖</h1>
+  <div class="emoji">🥳🎂🎈</div>
+  <div class="card">
+    <h2>Today, you deserve ALL the happiness!</h2>
+    <p>
+      May your days be filled with laughter, your heart with peace,
+      your dreams with possibilities, and your life with people
+      who genuinely make you happy. 🌷
+    </p>
+    <p>Keep being your wonderfully unique self, Pinky! 🫶🏻</p>
+  </div>
+  <button onclick="showCake()">NEXT: CAKE TIME 🎂</button>
+</section>
+
+<section id="cakeSection" class="hidden">
+  <h2>Make a birthday wish! 🌠</h2>
+  <p>Take a deep breath, Pinky. Your wish moment is here!</p>
+  <div class="cake" role="button" tabindex="0"
+       aria-label="Blow out the birthday candles"
+       onclick="blowCandles()"
+       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();blowCandles()}">
+    🎂
+  </div>
+  <p id="cakeMessage">Tap the cake to blow out the candles! 🕯️</p>
+  <button id="wishButton" onclick="blowCandles()">MAKE A WISH ✨</button>
+  <button id="cakeNext" class="hidden" onclick="showGift()">NEXT: A MYSTERY GIFT 🎁</button>
+</section>
+
+<section id="giftSection" class="hidden">
+  <h2>A little mystery for you... 👀</h2>
+  <p>There is something waiting for you. Tap the gift!</p>
+  <div class="gift" role="button" tabindex="0"
+       aria-label="Open the mystery gift"
+       onclick="openGift()"
+       onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openGift()}">
+    🎁
+  </div>
+  <div id="giftMessage" class="card hidden">
+    <div class="emoji">💝</div>
+    <h2>Your gift is...</h2>
+    <p>
+      A pocketful of virtual hugs, unlimited good wishes,
+      an imaginary mountain of chocolate, and a lifetime supply
+      of reasons to smile! 🍫🧸🌸
+    </p>
+    <p>Redeemable for absolutely zero money. 😂💗</p>
+  </div>
+  <button id="giftNext" class="hidden" onclick="showMemories()">
+    ONE MORE SURPRISE 💌
+  </button>
+</section>
+
+<section id="memories" class="hidden">
+  <h2>Official Birthday Rules 📜</h2>
+  <div class="card">
+    <p>🌷 Rule 1: Smile at least once today.</p>
+    <p>🍰 Rule 2: Cake calories are on vacation.</p>
+    <p>👑 Rule 3: Birthday queen gets VIP treatment.</p>
+    <p>😂 Rule 4: Being dramatic is temporarily encouraged.</p>
+    <p>💖 Rule 5: Never forget how much you matter.</p>
+  </div>
+  <div class="emoji">👑🩷✨</div>
+  <p>And now... the final part of your little surprise.</p>
+  <button onclick="showApology()">ONE LAST THING... 💌</button>
+</section>
+
+<section id="apology" class="hidden">
+  <div class="emoji">🥹💌</div>
+  <h2>A little letter for Pinky</h2>
+  <p>Okay... jokes aside, there's something I want to say.</p>
+
+  <div class="letter">
+    <strong>Dear Pinky, 💗</strong>
+
+    First of all, HAPPY BELATED BIRTHDAY! 🎂🎀
+
+    Okay, I know I'm late, and honestly, I'm sorry.
+    Your birthday was yesterday, and I should have wished
+    you on time. I may be a little late with this surprise,
+    but I didn't want to let the moment pass without
+    celebrating you properly.
+
+    You deserve happiness, beautiful memories, peaceful
+    days, lots of laughter, and countless reasons to smile.
+    I hope this new year of your life brings you closer to
+    the things you've been dreaming about.
+
+    I'm sorry that my birthday wish arrived a day late.
+    I can't change the timing, but I can still send you
+    all the love, good wishes, and happiness I wanted
+    you to receive.
+
+    So please accept this tiny website as my little
+    attempt to make you smile. 🥹💖
+
+    May your bad days be fewer, your good days be
+    brighter, and your future be full of wonderful surprises.
+    Keep smiling, keep shining, and never stop being you.
+
+    And yes, I'm officially guilty of being late.
+    I'll accept my punishment... one slice of cake
+    has to be shared with me. 😂🍰
+
+    <strong>Once again, HAPPY BIRTHDAY, PINKY! 🎉</strong>
+
+    Sorry I'm late, and thank you for being you.
+    Sending you the biggest bundle of birthday wishes! 🫶🏻
+
+    <strong>From,
+    Your favourite troublemaker (hopefully 😂) 💗</strong>
+  </div>
+
+  <button onclick="finalHug()">ONE LAST BIRTHDAY HUG! 🧸</button>
+  <div id="finalMessage" class="card hidden">
+    <div class="emoji">🫂💗🎀</div>
+    <h2>Stay happy, Pinky!</h2>
+    <p>Late wishes, endless good vibes, and lots of love for your new year! 🌷</p>
+    <p>THE END... or maybe the start of more chaos. 😂✨</p>
+    <button onclick="celebrateAgain()">REPLAY THE MAGIC 🎉</button>
+  </div>
+</section>
+
+<footer>
+  Made with 💗, a little chaos, and lots of birthday magic 🎀
+</footer>
+
+<script>
+const sections = [
+  "welcome", "party", "cakeSection",
+  "giftSection", "memories", "apology"
+];
+
+function goTo(id) {
+  sections.forEach(section => {
+    document.getElementById(section).classList.add("hidden");
+  });
+
+  const target = document.getElementById(id);
+  target.classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function startParty() {
+  goTo("party");
+  confettiBurst(150);
+}
+
+function showCake() {
+  goTo("cakeSection");
+}
+
+let candlesDone = false;
+
+function blowCandles() {
+  if (candlesDone) return;
+
+  candlesDone = true;
+  document.querySelector(".cake").textContent = "🎂💨✨";
+  document.getElementById("cakeMessage").textContent =
+    "WISH SENT TO THE UNIVERSE! 🌠💗 May something wonderful happen!";
+  document.getElementById("wishButton").classList.add("hidden");
+  document.getElementById("cakeNext").classList.remove("hidden");
+
+  confettiBurst(100);
+}
+
+function showGift() {
+  goTo("giftSection");
+}
+
+let giftOpened = false;
+
+function openGift() {
+  if (giftOpened) return;
+
+  giftOpened = true;
+  document.querySelector(".gift").textContent = "💝";
+  document.getElementById("giftMessage").classList.remove("hidden");
+  document.getElementById("giftNext").classList.remove("hidden");
+
+  confettiBurst(100);
+}
+
+function showMemories() {
+  goTo("memories");
+}
+
+function showApology() {
+  goTo("apology");
+  confettiBurst(80);
+}
+
+function finalHug() {
+  document.getElementById("finalMessage").classList.remove("hidden");
+  confettiBurst(180);
+  document.getElementById("finalMessage").scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+}
+
+function celebrateAgain() {
+  candlesDone = false;
+  giftOpened = false;
+
+  document.querySelector(".cake").textContent = "🎂";
+  document.getElementById("cakeMessage").textContent =
+    "Tap the cake to blow out the candles! 🕯️";
+  document.getElementById("wishButton").classList.remove("hidden");
+  document.getElementById("cakeNext").classList.add("hidden");
+
+  document.querySelector(".gift").textContent = "🎁";
+  document.getElementById("giftMessage").classList.add("hidden");
+  document.getElementById("giftNext").classList.add("hidden");
+  document.getElementById("finalMessage").classList.add("hidden");
+
+  goTo("welcome");
+}
+
+// Floating hearts and sparkles
+const floatEmojis = ["💗", "💕", "✨", "🌸", "🎀", "💖", "🦋"];
+
+function createFloat() {
+  const item = document.createElement("div");
+  item.className = "floating";
+  item.textContent =
+    floatEmojis[Math.floor(Math.random() * floatEmojis.length)];
+
+  item.style.left = Math.random() * 100 + "vw";
+  item.style.fontSize = (15 + Math.random() * 23) + "px";
+  item.style.animationDuration = (6 + Math.random() * 6) + "s";
+
+  document.body.appendChild(item);
+
+  setTimeout(() => item.remove(), 12500);
+}
+
+setInterval(createFloat, 550);
+
+// Lightweight confetti animation
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+let pieces = [];
+let animationRunning = false;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function confettiBurst(amount) {
+  const colors = ["#ff69b4", "#c77dff", "#ffd166",
+                  "#ff8fab", "#ffffff", "#b8f2e6"];
+
+  for (let i = 0; i < amount; i++) {
+    pieces.push({
+      x: Math.random() * canvas.width,
+      y: -Math.random() * canvas.height * 0.5,
+      size: 4 + Math.random() * 6,
+      speed: 2 + Math.random() * 5,
+      drift: (Math.random() - 0.5) * 4,
+      rotation: Math.random() * 6,
+      color: colors[Math.floor(Math.random() * colors.length)]
+    });
+  }
+
+  if (!animationRunning) {
+    animationRunning = true;
+    requestAnimationFrame(drawConfetti);
+  }
+}
+
+function drawConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  pieces.forEach(piece => {
+    piece.y += piece.speed;
+    piece.x += piece.drift;
+    piece.rotation += 0.08;
+
+    ctx.save();
+    ctx.translate(piece.x, piece.y);
+    ctx.rotate(piece.rotation);
+    ctx.fillStyle = piece.color;
+    ctx.fillRect(-piece.size / 2, -piece.size / 2,
+                 piece.size, piece.size * 1.5);
+    ctx.restore();
+  });
+
+  pieces = pieces.filter(piece => piece.y < canvas.height + 20);
+
+  if (pieces.length > 0) {
+    requestAnimationFrame(drawConfetti);
+  } else {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    animationRunning = false;
+  }
+}
+</script>
+
+</body>
+    </html>
+  
